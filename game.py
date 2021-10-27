@@ -2,26 +2,26 @@ import pygame
 pygame.init()
 
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, KEYDOWN, K_SPACE, K_ESCAPE)
-from constants import WIDTH, HEIGHT, first_object, second_object, FPS
+from constants import WIDTH, HEIGHT, Spaceship, Spaceman, FPS
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
 #testing drawing
-def first_object_draw(positionx, positiony):
-    screen.blit(first_object, (positionx, positiony))
+def Spaceship_draw(positionx, positiony):
+    screen.blit(Spaceship, (positionx, positiony))
 
-def second_object_draw(positionx, positiony):
-    screen.blit(second_object, (positionx, positiony))
+def Spaceman_draw(positionx, positiony):
+    screen.blit(Spaceman, (positionx, positiony))
 
 #caption And Icon
 pygame.display.set_caption('Not decided')
-pygame.display.set_icon(first_object)
+pygame.display.set_icon(Spaceship)
 
 
 
 def main():
-    first_objectX, first_objectY = 370, 20
-    second_objectX, second_objectY = 370, 480
+    SpaceshipX, SpaceshipY = 370, 20
+    SpacemanX, SpacemanY = 370, 480
     running = True
     clock = pygame.time.Clock()
 
@@ -37,28 +37,28 @@ def main():
                     running = False          
             
                 if event.key == K_RIGHT:
-                    second_objectX = second_objectX + 30
+                    SpacemanX = SpacemanX + 30
             
                 if event.key == K_LEFT:
-                    second_objectX = second_objectY - 30
+                    SpacemanX = SpacemanY - 30
 
                 if event.key == K_UP:
-                    second_objectY = second_objectY - 30
+                    SpacemanY = SpacemanY - 30
             
                 if event.key == K_SPACE:
                     pass
-                    #second_objectY = second_objectY - 30
+                    #SpacemanY = SpacemanY - 30
 
                 if event.key == K_DOWN:
-                    second_objectY = second_objectY + 30
+                    SpacemanY = SpacemanY + 30
 
-            first_objectX = first_objectX + 1
+            SpaceshipX = SpaceshipX + 1
 
 
         screen.fill((0,0,0))
 
-        first_object_draw(first_objectX, first_objectY)
-        second_object_draw(second_objectX, second_objectY)
+        Spaceship_draw(SpaceshipX, SpaceshipY)
+        Spaceman_draw(SpacemanX, SpacemanY)
         pygame.display.update()
         #pygame.display.flip()
 
