@@ -37,20 +37,20 @@ def main():
                     running = False          
             
                 if event.key == K_RIGHT:
-                    SpacemanX = SpacemanX + 30
+                    SpacemanX = SpacemanX + 3
             
                 if event.key == K_LEFT:
-                    SpacemanX = SpacemanY - 30
+                    SpacemanX = SpacemanY - 3
 
                 if event.key == K_UP:
-                    SpacemanY = SpacemanY - 30
+                    SpacemanY = SpacemanY - 3
             
                 if event.key == K_SPACE:
                     pass
                     #SpacemanY = SpacemanY - 30
 
                 if event.key == K_DOWN:
-                    SpacemanY = SpacemanY + 30
+                    SpacemanY = SpacemanY + 3
 
             SpaceshipX = SpaceshipX + 1
 
@@ -64,3 +64,10 @@ def main():
     pygame.quit()
 
 main()
+
+'''
+1) Speed up character movements
+2) Find images from game
+3) Build functions to draw these images in game
+4) Build randimizer for some of the drawings
+'''

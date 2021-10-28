@@ -10,3 +10,21 @@ class Drawer:
 
     def Spaceman_draw(positionx, positiony):
         screen.blit(Spaceman, (positionx, positiony))
+
+    def Astroid_draw():
+        pass
+
+    def Boss_draw():
+        pass
+    
+    def Treasure_draw():
+        pass
+
+    def Arrows_draw():
+        pass
+
+    def Background_planet_draw():
+        pass
+
+    def Stars_draw():
+        pass
