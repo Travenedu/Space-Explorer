@@ -1,8 +1,8 @@
-import pygame
+import pygame, random
 pygame.init()
 
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, KEYDOWN, K_SPACE, K_ESCAPE)
-from Explorer.constants import screen, Spaceship, FPS
+from Explorer.constants import AstroidX, AstroidY, screen, Spaceship, FPS
 from Explorer.object import Drawer
 
 #screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -21,6 +21,9 @@ pygame.display.set_icon(Spaceship)
 def main():
     SpaceshipX, SpaceshipY = 370, 20
     SpacemanX, SpacemanY = 370, 480
+    Astroid_position = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+    #AstroidX, AstroidY = 370, 370
+    
     running = True
     clock = pygame.time.Clock()
     #draw = Drawer()
@@ -58,6 +61,12 @@ def main():
 
         Drawer.Spaceship_draw(SpaceshipX, SpaceshipY)
         Drawer.Spaceman_draw(SpacemanX, SpacemanY)
+        
+        
+        AstroidX = random.choice(Astroid_position)
+        AstroidY = random.choice(Astroid_position)
+        Drawer.Astroid_draw(AstroidX, AstroidY)
+
         pygame.display.update()
         #pygame.display.flip()
 
