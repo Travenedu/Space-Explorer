@@ -63,9 +63,9 @@ def main():
         Drawer.Spaceman_draw(SpacemanX, SpacemanY)
         
         
-        AstroidX = random.choice(Astroid_position)
-        AstroidY = random.choice(Astroid_position)
-        Drawer.Astroid_draw(AstroidX, AstroidY)
+        #AstroidX = random.choice(Astroid_position)
+        #AstroidY = random.choice(Astroid_position)
+        #Drawer.Astroid_draw(AstroidX, AstroidY)
 
         pygame.display.update()
         #pygame.display.flip()
