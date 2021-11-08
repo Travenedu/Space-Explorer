@@ -1,18 +1,10 @@
-import pygame, random
+import pygame
 pygame.init()
 
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, KEYDOWN, K_SPACE, K_ESCAPE)
-from Explorer.constants import AstroidX, AstroidY, screen, Spaceship, FPS
-from Explorer.object import Drawer
+from Explorer.constants import AstroidX, AstroidY, screen, Spaceship, FPS, WIDTH, HEIGHT
+from Explorer.object import Drawer, Star
 
-#screen = pygame.display.set_mode([WIDTH, HEIGHT])
-
-#testing drawing
-#def Spaceship_draw(positionx, positiony):
-    #screen.blit(Spaceship, (positionx, positiony))
-
-#def Spaceman_draw(positionx, positiony):
-    #screen.blit(Spaceman, (positionx, positiony))
 
 #caption And Icon
 pygame.display.set_caption('Space Explorer')
@@ -21,12 +13,13 @@ pygame.display.set_icon(Spaceship)
 def main():
     SpaceshipX, SpaceshipY = 370, 20
     SpacemanX, SpacemanY = 370, 480
+    star_list = [Star(WIDTH, HEIGHT) for _ in range(300)]
     Astroid_position = [100, 200, 300, 400, 500, 600, 700, 800, 900]
+    gravity = 5 #For full game change back to 12
     #AstroidX, AstroidY = 370, 370
-    
+
     running = True
     clock = pygame.time.Clock()
-    #draw = Drawer()
 
     while running:
         clock.tick(FPS)
@@ -35,29 +28,39 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False          
-            
-                if event.key == K_RIGHT:
-                    SpacemanX = SpacemanX + 3
-            
-                if event.key == K_LEFT:
-                    SpacemanX = SpacemanY - 3
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                running = False          
+        
+            if event.key == K_RIGHT:
+                SpacemanX += 12
+        
+            if event.key == K_LEFT:
+                SpacemanX -= 12
 
-                if event.key == K_UP:
-                    SpacemanY = SpacemanY - 3
-            
-                if event.key == K_SPACE:
-                    pass
-                    #SpacemanY = SpacemanY - 30
+            if event.key == K_UP:
+                SpacemanY  -= 20
+        
+            if event.key == K_SPACE:
+                SpacemanY  -= 20
 
-                if event.key == K_DOWN:
-                    SpacemanY = SpacemanY + 3
+            if event.key == K_DOWN and SpacemanY <= 490:
+                SpacemanY += 12
 
-            SpaceshipX = SpaceshipX + 1
+        SpaceshipX = SpaceshipX + 1
+        
+        if SpacemanY >= 490:
+            gravity = 0
+
+        if SpacemanY <= 490:
+            gravity = 5
+
+        SpacemanY += gravity
 
         screen.fill((0,0,0))
+        
+        for s in star_list:
+            s.show(screen)
 
         Drawer.Spaceship_draw(SpaceshipX, SpaceshipY)
         Drawer.Spaceman_draw(SpacemanX, SpacemanY)
@@ -68,7 +71,7 @@ def main():
         #Drawer.Astroid_draw(AstroidX, AstroidY)
 
         pygame.display.update()
-        #pygame.display.flip()
+        pygame.display.flip()
 
     pygame.quit()
 
