@@ -2,7 +2,7 @@ import pygame
 pygame.init()
 
 from Explorer.constants import screen, Spaceship, FPS, WIDTH, HEIGHT, planet1, planet2, planet3, planet4,aim_cursor_image
-from Explorer.object import Drawer, Star, Spaceman, bullet_group, Bullet
+from Explorer.object import Drawer, Star, Spaceman,  Bullet, Enemy, bullet_group
 
 
 #caption And Icon
@@ -21,7 +21,7 @@ def main():
     star_list = [Star(WIDTH, HEIGHT) for _ in range(300)]
 
     Spaceman_soldier = Spaceman(200, 200, 3, 7)
-    
+    Alien_Enemy = Enemy(600, 250, 1.5, 7)
 
     while running:
         clock.tick(FPS)
@@ -37,14 +37,20 @@ def main():
         Drawer.planet_draw(planet2, 650, 700)
         Drawer.planet_draw(planet3, 850, 300)
         Drawer.planet_draw(planet4, 550, 400)
-
+        #bullets
         bullet_group.update()
         bullet_group.draw(screen)
-
-
+        #Spaceman
         Spaceman_soldier.update_animation()
         Spaceman_soldier.Spaceman_draw()
+        #Spaceship
         Drawer.Spaceship_draw(SpaceshipX, SpaceshipY)
+
+        #Alien
+        Alien_Enemy.Enemy_draw()
+        Alien_Enemy.update_animation()
+        if Alien_Enemy.alive:
+            Alien_Enemy.update_action(2)
 
         if Spaceman_soldier.alive:
             if shoot:

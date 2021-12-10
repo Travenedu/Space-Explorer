@@ -20,14 +20,6 @@ class Drawer:
     def Boss_draw():
         pass
     
-    def Treasure_draw():
-        pass
-
-    def Arrows_draw():
-        pass
-
-    def Background_planet_draw():
-        pass
 
 class Spaceman(pygame.sprite.Sprite):
     def __init__(self, x, y, scale, speed):
@@ -143,9 +135,9 @@ class Enemy(pygame.sprite.Sprite):
         self.action = 0
         self.update_time = pygame.time.get_ticks()
 
-        animation_types = ['RunGunForward', 'Idle_Stand_Forward', 'Crouch_Forward', 'Jump']
+        animation_types = ['Alien_Attack', 'Alien_Death', 'Alien_walk']
         
-        animation_file_numbers = {'RunGunForward': 3, 'Idle_Stand_Forward':1, 'Crouch_Forward': 1, 'Jump': 1}
+        animation_file_numbers = {'Alien_Attack': 6, 'Alien_Death': 6, 'Alien_walk': 7}
 
         for animation in animation_types:
             temp_animation_list = []
@@ -153,7 +145,7 @@ class Enemy(pygame.sprite.Sprite):
             number_of_frames = animation_file_numbers[animation]
 
             for i in range(number_of_frames):
-                enemy = pygame.image.load(f'assets/Spacesoldier/{animation}/{i}.png')#enemy image 
+                enemy = pygame.image.load(f'assets/Alien_Enemy/{animation}/{i}.png')#enemy image 
                 enemy = pygame.transform.scale(enemy, (int(enemy.get_width() * scale), int(enemy.get_height() * scale)))
                 temp_animation_list.append(enemy)
             self.animation_list.append(temp_animation_list)
@@ -199,8 +191,8 @@ class Enemy(pygame.sprite.Sprite):
             self.frame_index = 0
             self.update_time = pygame.time.get_ticks()
 
-    def Spaceman_draw(self):
-        screen.blit(pygame.transform.flip(self.enemy_image, self.flip, False), self.rect)
+    def Enemy_draw(self):
+        screen.blit(pygame.transform.flip(self.Enemy_image, self.flip, False), self.rect)
 
 
 
