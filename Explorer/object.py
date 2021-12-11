@@ -23,6 +23,7 @@ class Spaceman(pygame.sprite.Sprite):
     def __init__(self, x, y, scale, speed):
         pygame.sprite.Sprite.__init__(self)
         self.alive = True
+        self.health = 100
         self.speed = speed
         self.direction = 1
         self.velocity_y = 0
@@ -129,6 +130,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, scale, speed):
         pygame.sprite.Sprite.__init__(self)
         self.alive = True
+        self.health = 25
         self.speed = speed
         self.direction = 1
         self.flip = False
@@ -137,9 +139,9 @@ class Enemy(pygame.sprite.Sprite):
         self.action = 0
         self.update_time = pygame.time.get_ticks()
 
-        animation_types = ['Alien_Attack', 'Alien_Death', 'Alien_walk']
+        animation_types = ['Alien_walk', 'Alien_Attack', 'Alien_Death']
         
-        animation_file_numbers = {'Alien_Attack': 6, 'Alien_Death': 6, 'Alien_walk': 7}
+        animation_file_numbers = {'Alien_walk': 7,'Alien_Attack': 6, 'Alien_Death': 6}
 
         for animation in animation_types:
             temp_animation_list = []
@@ -156,12 +158,19 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = pygame.Rect(0, 0, 70, 100)
         self.rect.center = (x, y)
 
-    def moving(self):
-        #changeinX = 0
+    def moving(self, target):
+        changeinX = 0
         changeinY = 0
-        changeinX = -self.speed
-        self.flip = True
-        self.direction = -1
+        if self.rect.left > target.rect.right:
+            #move left
+            changeinX = -self.speed
+            self.flip = True
+            self.direction = -1
+        if self.rect.right <  target.rect.left:
+            #move right
+            changeinX = self.speed
+            self.flip = False
+            self.direction = 1
 
         if self.rect.bottom + changeinY > 350:
             changeinY = 350 - self.rect.bottom
@@ -172,6 +181,12 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x += changeinX
         self.rect.y += changeinY    
+
+    def attack(self, target):
+        if self.rect.right == target.rect.left or self.rect.left == target.rect.right:
+            target.health -= 5
+            
+
 
     def update_animation(self):
         ANIMATION_COOLDOWN = 100
@@ -189,8 +204,21 @@ class Enemy(pygame.sprite.Sprite):
             self.frame_index = 0
             self.update_time = pygame.time.get_ticks()
 
-    def update(self):
+    def update(self, target):
+        if self.rect.right == target.rect.left or self.rect.left == target.rect.right:
+            self.action = 1
+            self.update_action(1)
+
+        elif self.action == 2:
+            self.attack(target)
+            self.update_action(2)
+
+        else:
+            self.moving(target)
+            self.update_action(0)
+        
         self.update_animation()
+        print(self.action)
         pygame.draw.rect(screen, (255,255,255), self.rect, 1)#remove final version
         screen.blit(pygame.transform.flip(self.Enemy_image, self.flip, False), (self.rect.x - 40, self.rect.y - 10))
 

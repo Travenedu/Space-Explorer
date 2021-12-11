@@ -46,15 +46,17 @@ def main():
         bullet_group.update()
         bullet_group.draw(screen)
         #Alien
-        Alien_Enemy.update()
+        
 
-        alien_group.update(screen)
+        alien_group.update(screen, Spaceman_soldier)
 
 
 
         if Alien_Enemy.alive:
-            Alien_Enemy.update_action(2)
-        Alien_Enemy.moving()
+            Alien_Enemy.update(Spaceman_soldier)
+
+ 
+        #Alien_Enemy.moving()
 
 
 
