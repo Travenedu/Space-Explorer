@@ -21,7 +21,7 @@ def main():
     star_list = [Star(WIDTH, HEIGHT) for _ in range(300)]
 
     Spaceman_soldier = Spaceman(200, 200, 3, 7)
-    Alien_Enemy = Enemy(600, 250, 1.5, 7)
+    Alien_Enemy = Enemy(1200, 250, 1.5, 3)
 
     while running:
         clock.tick(FPS)
@@ -51,6 +51,7 @@ def main():
         Alien_Enemy.update_animation()
         if Alien_Enemy.alive:
             Alien_Enemy.update_action(2)
+        Alien_Enemy.moving()
 
         if Spaceman_soldier.alive:
             if shoot:

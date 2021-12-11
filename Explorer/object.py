@@ -154,23 +154,19 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.Enemy_image.get_rect()
         self.rect.center = (x, y)
 
-    def moving(self, move_left, move_right):
-        changeinX = 0
+    def moving(self):
+        #changeinX = 0
         changeinY = 0
-        if move_left:
-            changeinX = -self.speed
-            self.flip = True
-            self.direction = -1
-        if move_right:
-            changeinX = self.speed
-            self.flip = False
-            self.direction = 1
-
+        changeinX = -self.speed
+        self.flip = True
+        self.direction = -1
 
         if self.rect.bottom + changeinY > 318:
             changeinY = 318 - self.rect.bottom
             self.in_air = False
-
+        #might have to moved
+        if self.rect.right < 200 or self.rect.left > WIDTH:
+            self.kill()
 
         self.rect.x += changeinX
         self.rect.y += changeinY    
