@@ -17,8 +17,6 @@ class Drawer:
     def planet_draw(planet, positionx, positiony):
         screen.blit(planet, (positionx, positiony))
     
-    def Boss_draw():
-        pass
     
 
 class Spaceman(pygame.sprite.Sprite):
@@ -53,7 +51,7 @@ class Spaceman(pygame.sprite.Sprite):
             self.animation_list.append(temp_animation_list)
 
         self.Spaceman_image = self.animation_list[self.action][self.frame_index]
-        self.rect = self.Spaceman_image.get_rect()
+        self.rect = pygame.Rect(0,0,40,100)
         self.rect.center = (x, y)
 
     def moving(self, move_left, move_right):
@@ -79,8 +77,8 @@ class Spaceman(pygame.sprite.Sprite):
 
         changeinY  += self.velocity_y
 
-        if self.rect.bottom + changeinY > 318:
-            changeinY = 318 - self.rect.bottom
+        if self.rect.bottom + changeinY > 300:
+            changeinY = 300 - self.rect.bottom
             self.in_air = False
 
 
@@ -104,7 +102,8 @@ class Spaceman(pygame.sprite.Sprite):
             self.update_time = pygame.time.get_ticks()
 
     def Spaceman_draw(self):
-        screen.blit(pygame.transform.flip(self.Spaceman_image, self.flip, False), self.rect)
+        pygame.draw.rect(screen, (255,255,255), self.rect, 1)#remove final version
+        screen.blit(pygame.transform.flip(self.Spaceman_image, self.flip, False), (self.rect.x - 50, self.rect.y - 38))
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
@@ -119,6 +118,9 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x += (self.direction * self.speed)
         if self.rect.right < 0 or self.rect.left > WIDTH:
             self.kill()
+
+        #if pygame.sprite.spritecollide(player, bullet_group, False):
+        #    if Spaceman_soldier.alive
 
 
 bullet_group = pygame.sprite.Group()
@@ -151,7 +153,7 @@ class Enemy(pygame.sprite.Sprite):
             self.animation_list.append(temp_animation_list)
 
         self.Enemy_image = self.animation_list[self.action][self.frame_index]
-        self.rect = self.Enemy_image.get_rect()
+        self.rect = pygame.Rect(0, 0, 70, 100)
         self.rect.center = (x, y)
 
     def moving(self):
@@ -161,8 +163,8 @@ class Enemy(pygame.sprite.Sprite):
         self.flip = True
         self.direction = -1
 
-        if self.rect.bottom + changeinY > 318:
-            changeinY = 318 - self.rect.bottom
+        if self.rect.bottom + changeinY > 350:
+            changeinY = 350 - self.rect.bottom
             self.in_air = False
         #might have to moved
         if self.rect.right < 200 or self.rect.left > WIDTH:
@@ -187,10 +189,12 @@ class Enemy(pygame.sprite.Sprite):
             self.frame_index = 0
             self.update_time = pygame.time.get_ticks()
 
-    def Enemy_draw(self):
-        screen.blit(pygame.transform.flip(self.Enemy_image, self.flip, False), self.rect)
+    def update(self):
+        self.update_animation()
+        pygame.draw.rect(screen, (255,255,255), self.rect, 1)#remove final version
+        screen.blit(pygame.transform.flip(self.Enemy_image, self.flip, False), (self.rect.x - 40, self.rect.y - 10))
 
-
+alien_group = pygame.sprite.Group()
 
     
 
