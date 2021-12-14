@@ -1,7 +1,7 @@
 import random
 import pygame
 
-from .constants import Spaceship, screen, Astroid, Gravity, aim_cursor_image, bullet, WIDTH
+from .constants import Spaceship, screen, Astroid, Gravity, game_font, bullet, WIDTH
 
 class Drawer:
     def __init__(self, positionx, positiony):
@@ -17,6 +17,28 @@ class Drawer:
     def planet_draw(planet, positionx, positiony):
         screen.blit(planet, (positionx, positiony))
     
+    def score_display(game_state, score, high_score):
+        if game_state == 'main_game':
+            score_surface = game_font.render(str(int(score)),True,(255,255,255))
+            score_rect = score_surface.get_rect(center = (970, 50))
+            screen.blit(score_surface, score_rect)
+        if game_state == 'game_over':
+            score_surface = game_font.render(f'Score: {int(score)}',True,(255,255,255))
+            score_rect = score_surface.get_rect(center = (900, 50))
+            screen.blit(score_surface, score_rect)
+
+            high_score_surface = game_font.render(f'High score: {int(high_score)}',True,(255,255,255))
+            high_score_rect = high_score_surface.get_rect(center = (300, 50))
+            Again_score_surface = game_font.render('Press A to Restart', True, (255,255,255))
+            Again_score_rect = high_score_surface.get_rect(center = (550, 100))
+            
+            screen.blit(high_score_surface, high_score_rect)
+            screen.blit(Again_score_surface, Again_score_rect)
+
+    def update_score(score, high_score):
+        if score > high_score:
+            high_score = score
+        return high_score 
     
 
 class Spaceman(pygame.sprite.Sprite):
@@ -128,8 +150,9 @@ class Bullet(pygame.sprite.Sprite):
 
         if pygame.sprite.spritecollide(enemy, bullet_group, False):
             if enemy.alive:
-                enemy.health -= 5
-                self.kill()
+               enemy.health -= 5
+               enemy.kill()
+        screen.blit(self.image, self.rect)
 
 bullet_group = pygame.sprite.Group()
 
@@ -217,14 +240,15 @@ class Enemy(pygame.sprite.Sprite):
             self.frame_index = 0
             self.update_time = pygame.time.get_ticks()
 
+    def update_bullet(self, bullet):
+        if pygame.sprite.spritecollide(bullet, alien_group, False):
+            if self.alive:
+                self.health = 0
+                bullet.kill()
+
     def update(self, target):
         if self.health <= 0:
             self.update_action(2)
-            #self.health = 0
-            #self.speed = 0
-            #self.alive = False
-            
-
         elif target.rect.right - 10 < self.rect.left <= target.rect.right + 10 or target.rect.left - 10 < self.rect.right <= target.rect.left + 10:
             self.attack(target)
             self.update_action(1)
@@ -233,8 +257,8 @@ class Enemy(pygame.sprite.Sprite):
             self.moving(target)
             self.update_action(0)
 
+        
         self.update_animation()
-        pygame.draw.rect(screen, (255,255,255), self.rect, 1)#remove final version
         screen.blit(pygame.transform.flip(self.Enemy_image, self.flip, False), (self.rect.x - 40, self.rect.y - 10))
 
 alien_group = pygame.sprite.Group()

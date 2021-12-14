@@ -17,7 +17,7 @@ aim_cursor_image = pygame.image.load('assets/Game Utilities/aim_cursor.png')
 #astroid Note: Using planet as place holder
 Astroid = pygame.transform.scale(pygame.image.load('assets/Planets/Ice_planet.png'), (50, 50))
 AstroidX, AstroidY = 370, 370
-
+game_font = pygame.font.Font('assets/04B_19.ttf',40)
 #planets
 planet1 = pygame.transform.scale(pygame.image.load('assets/Planets/Ice_planet.png'), (50, 50))
 planet2 = pygame.transform.scale(pygame.image.load('assets/Planets/sun.png'), (50, 50))
