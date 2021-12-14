@@ -6,7 +6,7 @@ from Explorer.object import Drawer, Star, Spaceman,  Bullet, Enemy, bullet_group
 
 
 #caption And Icon
-pygame.display.set_caption('Space Explorer')
+pygame.display.set_caption('Space Fighter')
 pygame.display.set_icon(Spaceship)
 
 def main():

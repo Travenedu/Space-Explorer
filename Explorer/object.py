@@ -128,7 +128,6 @@ class Spaceman(pygame.sprite.Sprite):
             self.update_time = pygame.time.get_ticks()
 
     def Spaceman_draw(self):
-        pygame.draw.rect(screen, (255,255,255), self.rect, 1)#remove final version
         screen.blit(pygame.transform.flip(self.Spaceman_image, self.flip, False), (self.rect.x - 50, self.rect.y - 38))
 
 class Bullet(pygame.sprite.Sprite):
