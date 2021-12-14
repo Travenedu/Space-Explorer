@@ -10,9 +10,6 @@ class Drawer:
     
     def Spaceship_draw(positionx, positiony):
         screen.blit(Spaceship, (positionx, positiony))
-
-    def Astroid_draw(positionx, positiony):
-        screen.blit(Astroid, (positionx, positiony))
     
     def planet_draw(planet, positionx, positiony):
         screen.blit(planet, (positionx, positiony))
@@ -204,7 +201,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.bottom + changeinY > 350:
             changeinY = 350 - self.rect.bottom
             self.in_air = False
-        #might have to moved
+
         if self.rect.right < 200 or self.rect.left > WIDTH:
             self.kill()
 
@@ -264,9 +261,6 @@ class Enemy(pygame.sprite.Sprite):
 alien_group = pygame.sprite.Group()
 
     
-
-
-
 class Star:
   def __init__(self, screen_width, screen_height):
     self.radius = random.randint(1,2)
