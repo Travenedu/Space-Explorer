@@ -1,7 +1,7 @@
 import pygame
 pygame.init()
 
-from Explorer.constants import screen, Spaceship, FPS, WIDTH, HEIGHT, planet1, planet2, planet3, planet4,aim_cursor_image
+from Explorer.constants import screen, Spaceship, FPS, WIDTH, HEIGHT, planet1, planet2, planet3, planet4
 from Explorer.object import Drawer, Star, Spaceman,  Bullet, Enemy, bullet_group, alien_group
 
 
@@ -17,11 +17,16 @@ def main():
     crouch = False
     shoot = False
 
+    Max_ememies = 10
+    enemy_timer = 1000
+    last_enemy = pygame.time.get_ticks()
+    enemies_live = 0
+
     SpaceshipX, SpaceshipY = 370, 20
     star_list = [Star(WIDTH, HEIGHT) for _ in range(300)]
 
     Spaceman_soldier = Spaceman(318, 200, 3, 7)
-    Alien_Enemy = Enemy(1200, 250, 1.5, 3)
+    #Alien_Enemy = Enemy(1200, 250, 1.5, 3)
 
     while running:
         clock.tick(FPS)
@@ -42,33 +47,34 @@ def main():
         #Spaceman
         Spaceman_soldier.update_animation()
         Spaceman_soldier.Spaceman_draw()
-        #bullets
-        bullet_group.update()
-        bullet_group.draw(screen)
-        #Alien
+
         
+        
+        if len(alien_group) < Max_ememies:
+            if pygame.time.get_ticks() - last_enemy > enemy_timer:
+                Alien_Enemy = Enemy(1200, 250, 1.5, 3)
+                alien_group.add(Alien_Enemy)
+                last_enemy = pygame.time.get_ticks()
 
+        #bullets
+        bullet_group.update(Alien_Enemy)
+        bullet_group.draw(screen)
+
+        #Alien
         alien_group.update(screen, Spaceman_soldier)
-
-
 
         if Alien_Enemy.alive:
             Alien_Enemy.update(Spaceman_soldier)
 
- 
-        #Alien_Enemy.moving()
-
-
-
         if Spaceman_soldier.alive:
             if shoot:
-                    if Spaceman_soldier.shoot_cooldown == 0:
-                        Spaceman_soldier.shoot_cooldown = 20
-                        bullet = Bullet(Spaceman_soldier.rect.centerx + (((Spaceman_soldier.rect.size[0]) - 80) * Spaceman_soldier.direction), Spaceman_soldier.rect.centery, Spaceman_soldier.direction)
-                        bullet_group.add(bullet)
-                    if Spaceman_soldier.shoot_cooldown != 0:
-                        Spaceman_soldier.shoot_cooldown -= 4
-                #Spaceman_soldier.shooting((Spaceman_soldier.rect.centerx + 53), Spaceman_soldier.rect.centery, Spaceman_soldier.direction)
+                if Spaceman_soldier.shoot_cooldown == 0:
+                    Spaceman_soldier.shoot_cooldown = 20
+                    bullet = Bullet(Spaceman_soldier.rect.centerx + (((Spaceman_soldier.rect.size[0]) - 80) * Spaceman_soldier.direction), Spaceman_soldier.rect.centery, Spaceman_soldier.direction)
+                    bullet_group.add(bullet)
+                if Spaceman_soldier.shoot_cooldown != 0:
+                    Spaceman_soldier.shoot_cooldown -= 4
+                
             if Spaceman_soldier.in_air:
                 Spaceman_soldier.update_action(3)#jump
             elif move_left or move_right:
@@ -78,7 +84,6 @@ def main():
             else:
                 Spaceman_soldier.update_action(1)#idle
             Spaceman_soldier.moving(move_left, move_right)
-
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -106,22 +111,11 @@ def main():
                 if event.key == pygame.K_s:
                     crouch = False
                 if event.key == pygame.K_m:
-                    shoot = False
-                #if event.key == pygame.K_w and Spaceman_soldier.alive:
-                #    Spaceman_soldier.jump = False    
+                    shoot = False   
 
-
-        
         pygame.display.update()
         pygame.display.flip()
 
     pygame.quit()
 
 main()
-
-'''
-1) Speed up character movements
-2) Find images from game
-3) Build functions to draw these images in game
-4) Build randimizer for some of the drawings
-'''
